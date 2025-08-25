@@ -1,0 +1,24 @@
+the web service api
+  is a client-server interface
+  is a hierarchy of endpoints
+    from http requests
+    to json responses
+  is all of
+    stateless
+    cacheable
+  is all of
+    adheres to a restful design style
+    is consistent across resources
+  output is idempotent
+  evaluation is event-driven
+error handling
+  if
+    any of
+      the request is invalid
+      the database connection fails
+    then occurs
+    else is skipped
+  can be any of
+    400 bad request
+    500 internal server error
+each endpoint of the web service api is unique

@@ -1,0 +1,8 @@
+#!/usr/bin/env guile
+!#
+
+(add-to-load-path (string-append (dirname (current-filename)) "/../modules"))
+(use-modules (ice-9 textual-ports) (sph sace))
+
+(let* ((text (get-string-all (current-input-port))) (sentences (sace-compile-text text)))
+  (for-each (lambda (s) (display s) (newline)) sentences))
