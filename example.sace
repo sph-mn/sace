@@ -1,24 +1,79 @@
-the web service api
-  is a client-server interface
-  is a hierarchy of endpoints
-    from http requests
-    to json responses
+system
   is all of
-    stateless
-    cacheable
-  is all of
-    adheres to a restful design style
-    is consistent across resources
-  output is idempotent
-  evaluation is event-driven
-error handling
-  if
-    any of
-      the request is invalid
-      the database connection fails
-    then occurs
-    else is skipped
+    scalable
+    reliable
+  output is any of
+    json
+    xml
+
+api can be either
+  v1
+  v2
+
+user at least
+  2
+  have sessions
+  can log in
+
+resource exactly
+  1
+  that the admin owns
+  is required
+
+feature iff
+  flag is set
+  mode is enabled
+
+error handling if
+  any of
+    request is invalid
+    database connection fails
+then occurs
+else is skipped
+
+which user
+  has an active session
+
+user
+  has role admin
+  is active
+
+node
+  is and
+    red
+    large
+
+format
   can be any of
-    400 bad request
-    500 internal server error
-each endpoint of the web service api is unique
+    yaml
+    toml
+    json
+
+request more than
+  3
+  are allowed per minute
+
+endpoint each
+  has documentation
+
+account no
+  active bans
+
+policy
+  not permitted
+
+data
+  from client
+  to server
+  with encryption
+  by proxy
+  for analytics
+  within 2 s
+  of high priority
+  at 09:00
+  before deployment
+  after approval
+
+worker if
+  queue empty
+then sleeps

@@ -6,58 +6,72 @@ the syntax is a tree: indentation encodes scope, paths through the tree generate
 ## example
 input:
 ```
-the web service api
-  is a client-server interface.
-  is a hierarchy of endpoints
-    from http requests
-    to json responses.
-  is and
-    stateless
-    cacheable.
-  adheres to a restful design style
-    and is consistent across resources.
-  output is idempotent.
-  evaluation is event-driven.
-request handler
-  prepares a response object
-    for the client.
-error handling
-  occurs if or
-    the request is invalid
-    the database connection fails.
-  can be or
-    400 bad request
-    500 internal server error.
-each endpoint of the web service api
-  is unique.
+users
+  at least
+    2
+    have sessions
+    can log in
+user
+  exactly
+    1
+    can write
+resource
+  exactly
+    1
+    that the admin owns
+    is required
+feature
+  iff
+    flag is set
+    mode is enabled
+the system
+  is all of
+    scalable
+    reliable
+  output is any of
+    json
+    xml
+the error handling
+  if
+    any of
+      the request is invalid
+      the database connection fails
+  then occurs
+  else is skipped
+which user
+  has an active session
+the api
+  can be either
+    v1
 ```
+
 output:
 ```
-the web service api is a client-server interface.
-the web service api is a hierarchy of endpoints from http requests to json responses.
-the web service api is stateless and cacheable.
-the web service api adheres to a restful design style and is consistent across resources.
-the output of the web service api is idempotent.
-the evaluation of the web service api is event-driven.
-the request handler prepares a response object for the client.
-the error handling occurs if the request is invalid or the database connection fails.
-the error handling can be 400 bad request or 500 internal server error.
-each endpoint of the web service api is unique.
+at least 2 users have sessions.
+at least 2 users can log in.
+exactly 1 user can write.
+exactly 1 resource that the admin owns is required.
+feature flag is set if and only if mode is enabled.
+the system is scalable and reliable.
+the system output is json or xml.
+if any of the request is invalid or the database connection fails then the error handling occurs else the error handling is skipped.
+which user has an active session?
+the api can be either v1 or v2.
 ```
 
 ## syntax
 ```
 program := block+
-block := subject-line item+
-subject-line := line not starting with indent or preposition
+block := subject line item*
+subject := line not starting with indent or preposition
 item := indent chain
 chain := head (head ...)* tail
-tail := "." | item+ | list
+tail := "." | item* | list
 list := operator item+
-operator := and | or | either | all | some | not | if | then | else
+operator := and | or | either | all of | any of | not | if | then | else | iff
 head := verb-phrase | preposition | "can be"
 preposition := from | to | with | by | for | within | of | at | before | after
-leaf := noun-phrase | adjective | code-token
+leaf := noun-phrase | adjective | code-token | number
 ```
 
 ### semantics
@@ -66,37 +80,75 @@ leaf := noun-phrase | adjective | code-token
 * siblings under a head -> multiple sentences (multiplication).
 * keywords alter path processing:
   * `and` / `or` / `either`: coordination inside one sentence
-  * `all`: universal quantification, expands across items
-  * `some`: existential quantification
+  * `all of`: universal quantification, expands across items
+  * `any of`: existential quantification
   * `not`: negation
   * `if` / `then` / `else`: conditional sentence
+  * `iff`: biconditional, "if and only if"
+* determiners (`exactly`, `at least`, `at most`, `more than`, `less than`, `every`, `each`, `no`) scope quantified noun phrases.
 
 ### structural examples
+
 ```
 x is and
   red
-  large.
+  large
 ```
+
 -> "x is red and large."
+
 ```
-y can be or
-  case a
-  case b.
+y can be any of
+  json
+  xml
 ```
--> "y can be case a or case b."
+
+-> "y can be json or xml."
+
 ```
-z occurs if
-  cond.
+user at least
+  2
+  has sessions
+  can log in
 ```
--> "z occurs if cond."
+
+-> "at least 2 users have sessions."
+-> "at least 2 users can log in."
+
 ```
-z occurs if or
-  cond1
-  cond2
-then action
-else alternative.
+resource exactly
+  1
+  that the admin
+  owns
 ```
--> "if cond1 or cond2 then z action else z alternative."
+
+-> "exactly 1 resource that the admin owns."
+
+```
+feature iff
+  flag is set
+  mode is enabled
+```
+
+-> "feature flag is set if and only if mode is enabled."
+
+```
+error handling if
+  request is invalid
+then occurs
+else is skipped
+```
+
+-> "if request is invalid then error handling occurs else error handling is skipped."
+
+```
+which user
+  has active session
+```
+
+-> "which user has active session?"
+
+```
 
 ## benefits
 * abstract syntax tree: clean separation between authoring and ace output.
@@ -131,3 +183,7 @@ run:
 ```
 guile example.scm
 ```
+
+# possible enhancements
+* output only valid ace
+* parse ace
