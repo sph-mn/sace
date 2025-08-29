@@ -144,24 +144,24 @@ iff
 * determinism: logical forms are explicit; no ambiguity.
 
 ## implementation
-dependencies: guile 3+
+dependencies: [guile](https://www.gnu.org/software/guile/) 3+
 
 ### from shell
 ~~~
-cat example.sace | ./exe/sace
+cat other/example.sace | ./exe/sace
 ~~~
 
 ### from scheme
+indented plaintext strings and s-expressions can be processed.
+the former with `sace-compile-text` and the latter with `sace-compile`.
+
 ```scheme
-(add-to-load-path (string-append (dirname (current-filename)) "/modules"))
 (use-modules (sph sace))
 
-(define example
-"the test subject
-  is simple.
-")
+(define example (quote (("the test subject" "is simple" "is short"))))
 
-(for-each (lambda (s) (display s) (newline)) (sace-compile-text example))
+(display (sace-compile example))
+(newline)
 ```
 
 run:
