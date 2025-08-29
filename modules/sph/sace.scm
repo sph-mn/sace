@@ -36,7 +36,8 @@
 
 (define (lin-iff subject-string a b)
   (emit-sentence
-    (string-append subject-string " " (string-trim-both a) " if and only if " (string-trim-both b))
+    (string-append (emit-space-joined (string-trim-both subject-string) (string-trim-both a))
+      " if and only if " (string-trim-both b))
     "."))
 
 (define (lin-if subject-string cond-text then-text else-text)

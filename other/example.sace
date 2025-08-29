@@ -1,0 +1,94 @@
+handler
+  if
+    database connection fails
+  then
+    retries
+    logs
+  else aborts
+
+iff
+  feature flag is set
+  mode is enabled
+
+system
+  output can be any of
+    json
+    xml
+  is and
+    scalable
+    reliable
+
+api
+  can be either
+    v1
+    v2
+
+format
+  can be any of
+    yaml
+    toml
+
+users at least
+  2
+  have sessions
+  can log in
+
+resource exactly
+  1
+  that the admin owns
+  is required
+
+every endpoint
+  has documentation
+
+no account
+  has active bans
+
+requests more than
+  3
+  are allowed per minute
+
+tasks at most
+  5
+  are pending
+
+items less than
+  10
+  are in stock
+
+handler
+  if
+    database connection fails
+  then
+    retries
+    calls ambulance
+  else aborts
+
+policy
+  is not permitted
+
+dataset
+  is from client
+  is sent to server
+  is encrypted
+  is routed by proxy
+  is processed within 2 seconds
+
+which user
+  has an active session
+  is inactive
+
+service
+  endpoint can be any of
+    public
+    internal
+
+project
+  is any of
+    active
+    archived
+
+product exactly
+  1
+  that is defective
+  is returned

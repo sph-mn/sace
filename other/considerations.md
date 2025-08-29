@@ -89,3 +89,7 @@ how are paths expanded into sentences by default?
     each root-to-leaf path yields a sentence unless modified by an operator. siblings multiply sentences; operators join or scope within a sentence.
   node-type driven expansion
     more ad hoc rules; weak composability.
+keyword inclusion choices
+  read from head to leaf, it should as much as possible read like a correct ace sentence.
+  sace does no pluralization, no article insertion, no guessing missing verbs.
+  alternatives to "and" and "or" ("all of" and "any of") were added to make a very common case more readable ("and"/"or" are infix, they dont compose well as prefixes and there was no alternative)

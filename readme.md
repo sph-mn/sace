@@ -3,151 +3,136 @@ an indented plaintext syntax that compiles to [attempto controlled english](http
 it reduces repetition via subject scoping, uses keywords for logical forms, and preserves aces determinism.
 the syntax is a tree: indentation encodes scope, paths through the tree generate sentences.
 
+## readme.md
+
+# sace
+
+an indented plaintext syntax that compiles to Attempto Controlled English.
+it reduces repetition via subject scoping, uses keywords for logical forms, and preserves ace’s determinism.
+the syntax is a tree: indentation encodes scope; paths generate sentences.
+
 ## example
 input:
-```
-users
-  at least
-    2
-    have sessions
-    can log in
-user
-  exactly
-    1
-    can write
-resource
-  exactly
-    1
-    that the admin owns
-    is required
+~~~
+system
+  is all of
+    scalable
+    reliable
+  output can be any of
+    json
+    xml
+
+api
+  can be either
+    v1
+    v2
+
+resource exactly
+  1
+  that the admin owns
+  is required
+
 feature
   iff
     flag is set
     mode is enabled
-the system
-  is all of
-    scalable
-    reliable
-  output is any of
-    json
-    xml
-the error handling
+
+handler
   if
-    any of
-      the request is invalid
-      the database connection fails
-  then occurs
-  else is skipped
+    database connection fails
+  then
+    retries
+    logs
+  else aborts
+
 which user
   has an active session
-the api
-  can be either
-    v1
-```
+  is inactive
+~~~
 
 output:
-```
-at least 2 users have sessions.
-at least 2 users can log in.
-exactly 1 user can write.
+~~~
+system is scalable and reliable.
+system output can be json or xml.
+api can be either v1 or v2.
 exactly 1 resource that the admin owns is required.
 feature flag is set if and only if mode is enabled.
-the system is scalable and reliable.
-the system output is json or xml.
-if any of the request is invalid or the database connection fails then the error handling occurs else the error handling is skipped.
+if database connection fails then handler retries else handler aborts.
+if database connection fails then handler logs else handler aborts.
 which user has an active session?
-the api can be either v1 or v2.
-```
+which user is inactive?
+~~~
 
 ## syntax
+
 ```
 program := block+
-block := subject line item*
+block := subject item*
 subject := line not starting with indent or preposition
 item := indent chain
-chain := head (head ...)* tail
-tail := "." | item* | list
+chain := head tail
+tail := item* | list
 list := operator item+
-operator := and | or | either | all of | any of | not | if | then | else | iff
-head := verb-phrase | preposition | "can be"
+operator := and | or | either | any of | all of | not | if | then | else | iff
+head := verb-phrase | preposition | "can be" | determiner
 preposition := from | to | with | by | for | within | of | at | before | after
+determiner := exactly | at least | at most | more than | less than | every | each | no
 leaf := noun-phrase | adjective | code-token | number
 ```
 
-### semantics
+## semantics
 * a path is a sequence of heads ending in a leaf.
 * indentation defines scope continuation.
-* siblings under a head -> multiple sentences (multiplication).
-* keywords alter path processing:
-  * `and` / `or` / `either`: coordination inside one sentence
-  * `all of`: universal quantification, expands across items
-  * `any of`: existential quantification
-  * `not`: negation
-  * `if` / `then` / `else`: conditional sentence
-  * `iff`: biconditional, "if and only if"
-* determiners (`exactly`, `at least`, `at most`, `more than`, `less than`, `every`, `each`, `no`) scope quantified noun phrases.
+* siblings under the same head multiply into separate sentences.
+* coordinators:
+  * `is all of x y …` → `is x and y …`
+  * `can be any of x y …` → `can be x or y …`
+  * `either x y` remains exclusive disjunction.
+* conditionals:
+  * `if` with optional `then` and `else`. multiple `then` items yield multiple sentences; one structured `then` with `and`/`or` yields one coordinated sentence.
+* biconditional:
+  * `iff` requires exactly two clauses: `a` and `b` → “a if and only if b.”
+  * allowed either as `subject → iff → a b` or top-level `iff → a b`.
+* determiners scope quantified noun phrases; no morphology is inferred.
 
-### structural examples
+## structural examples
 
 ```
 x is and
   red
   large
-```
+→ "x is red and large."
 
--> "x is red and large."
-
-```
 y can be any of
   json
   xml
-```
+→ "y can be json or xml."
 
--> "y can be json or xml."
+every user
+  has active session
+→ "every user has active session."
 
-```
 user at least
   2
-  has sessions
-  can log in
-```
+  have sessions
+→ "at least 2 users have sessions."
 
--> "at least 2 users have sessions."
--> "at least 2 users can log in."
-
-```
 resource exactly
   1
-  that the admin
-  owns
-```
+  that the admin owns
+  is required
+→ "exactly 1 resource that the admin owns is required."
 
--> "exactly 1 resource that the admin owns."
+handler
+  if
+    queue empty
+  then sleeps
+→ "if queue empty then handler sleeps."
 
-```
-feature iff
-  flag is set
+iff
+  feature flag is set
   mode is enabled
-```
-
--> "feature flag is set if and only if mode is enabled."
-
-```
-error handling if
-  request is invalid
-then occurs
-else is skipped
-```
-
--> "if request is invalid then error handling occurs else error handling is skipped."
-
-```
-which user
-  has active session
-```
-
--> "which user has active session?"
-
+→ "feature flag is set if and only if mode is enabled."
 ```
 
 ## benefits
