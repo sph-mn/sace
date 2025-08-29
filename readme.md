@@ -170,5 +170,5 @@ guile other/example.scm
 ```
 
 # possible enhancements
-* output only valid ace
-* parse ace
+* transpile ace to sace
+* ace syntax validation
