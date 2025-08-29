@@ -85,14 +85,14 @@ leaf := noun-phrase | adjective | code-token | number
 * indentation defines scope continuation.
 * siblings under the same head multiply into separate sentences.
 * coordinators:
-  * `is all of x y …` → `is x and y …`
-  * `can be any of x y …` → `can be x or y …`
+  * `is all of x y …` -> `is x and y …`
+  * `can be any of x y …` -> `can be x or y …`
   * `either x y` remains exclusive disjunction.
 * conditionals:
   * `if` with optional `then` and `else`. multiple `then` items yield multiple sentences; one structured `then` with `and`/`or` yields one coordinated sentence.
 * biconditional:
-  * `iff` requires exactly two clauses: `a` and `b` → “a if and only if b.”
-  * allowed either as `subject → iff → a b` or top-level `iff → a b`.
+  * `iff` requires exactly two clauses: `a` and `b` -> “a if and only if b.”
+  * allowed either as `subject -> iff -> a b` or top-level `iff -> a b`.
 * determiners scope quantified noun phrases; no morphology is inferred.
 
 ## structural examples
@@ -101,38 +101,38 @@ leaf := noun-phrase | adjective | code-token | number
 x is and
   red
   large
-→ "x is red and large."
+-> "x is red and large."
 
 y can be any of
   json
   xml
-→ "y can be json or xml."
+-> "y can be json or xml."
 
 every user
   has active session
-→ "every user has active session."
+-> "every user has active session."
 
 user at least
   2
   have sessions
-→ "at least 2 users have sessions."
+-> "at least 2 users have sessions."
 
 resource exactly
   1
   that the admin owns
   is required
-→ "exactly 1 resource that the admin owns is required."
+-> "exactly 1 resource that the admin owns is required."
 
 handler
   if
     queue empty
   then sleeps
-→ "if queue empty then handler sleeps."
+-> "if queue empty then handler sleeps."
 
 iff
   feature flag is set
   mode is enabled
-→ "feature flag is set if and only if mode is enabled."
+-> "feature flag is set if and only if mode is enabled."
 ```
 
 ## benefits
