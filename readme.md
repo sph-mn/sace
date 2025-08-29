@@ -3,14 +3,6 @@ an indented plaintext syntax that compiles to [attempto controlled english](http
 it reduces repetition via subject scoping, uses keywords for logical forms, and preserves aces determinism.
 the syntax is a tree: indentation encodes scope, paths through the tree generate sentences.
 
-## readme.md
-
-# sace
-
-an indented plaintext syntax that compiles to Attempto Controlled English.
-it reduces repetition via subject scoping, uses keywords for logical forms, and preserves ace’s determinism.
-the syntax is a tree: indentation encodes scope; paths generate sentences.
-
 ## example
 input:
 ~~~
