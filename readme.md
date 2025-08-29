@@ -166,7 +166,7 @@ the former with `sace-compile-text` and the latter with `sace-compile`.
 
 run:
 ```
-guile example.scm
+guile other/example.scm
 ```
 
 # possible enhancements
