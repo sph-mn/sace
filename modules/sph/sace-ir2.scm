@@ -87,6 +87,22 @@
       (remaining (lset-difference eq? items (append if-nodes then-nodes else-nodes))))
     (values cond-text then-payloads else-payloads remaining)))
 
+(define (insert-after s i add)
+  (string-append (substring s 0 i) add (substring s i (string-length s))))
+
+(define (negate-cond c)
+  (cond
+    ((string-contains c " is not ") (string-replace-substring c " is not " " is "))
+    ((string-contains c " can not be ") (string-replace-substring c " can not be " " can be "))
+    ((string-contains c " does not have ") (string-replace-substring c " does not have " " has "))
+    ( (let ((i (string-contains c " is ")))
+        (and i (string-append (substring c 0 (+ i 4)) "not " (substring c (+ i 4))))))
+    ( (let ((i (string-contains c " can be ")))
+        (and i (string-append (substring c 0 (+ i 5)) " not" (substring c (+ i 5))))))
+    ( (let ((i (string-contains c " has ")))
+        (and i (string-append (substring c 0 i) " does not have " (substring c (+ i 5))))))
+    (else #f)))
+
 (define (ir->predicate subject-string ir-node)
   (match ir-node (((quote simple) s t) (if (string=? s subject-string) (list t) (quote ())))
     ( ( (quote coord) s verb conj items)
@@ -112,6 +128,13 @@
         (append-map (lambda (it) (compile-item subject-string it)) payload)))
     payloads))
 
+(define (payloads->explicit-else-ifs subject-string payloads)
+  (append-map
+    (lambda (payload)
+      (filter (lambda (n) (and (pair? n) (eq? (car n) (quote if))))
+        (compile-block (cons subject-string payload))))
+    payloads))
+
 (define (compile-block block)
   (match block (("iff" a b) (list (list (quote iff) "" (item->text a) (item->text b))))
     (("iff" a b . _) (list (list (quote iff) "" (item->text a) (item->text b))))
@@ -120,21 +143,22 @@
         (lambda (cond-text then-payloads else-payloads remaining-items)
           (let*
             ( (then-strings (items-subtrees->pred-strings subject-string then-payloads))
-              (else-strings (items-subtrees->pred-strings subject-string else-payloads))
-              (first-else (and (pair? else-strings) (car else-strings)))
-              (if-nodes
+              (bare-else-strings (items-subtrees->pred-strings subject-string else-payloads))
+              (explicit-else-if-nodes (payloads->explicit-else-ifs subject-string else-payloads))
+              (negated (and cond-text (negate-cond cond-text)))
+              (if-then-nodes
+                (if cond-text
+                  (map (lambda (t) (list (quote if) subject-string cond-text t #f)) then-strings)
+                  (quote ())))
+              (if-else-nodes
                 (cond
-                  ((not cond-text) (quote ()))
-                  ( (null? then-strings)
-                    (map (lambda (e) (list (quote if) subject-string cond-text #f e)) else-strings))
-                  ( (= (length then-strings) 1)
-                    (list (list (quote if) subject-string cond-text (car then-strings) first-else)))
-                  (else
-                    (map (lambda (t) (list (quote if) subject-string cond-text t first-else))
-                      then-strings))))
+                  ( (and cond-text negated (pair? bare-else-strings))
+                    (map (lambda (e) (list (quote if) subject-string negated e #f))
+                      bare-else-strings))
+                  (else (quote ()))))
               (other-nodes
                 (append-map (lambda (it) (compile-item subject-string it)) remaining-items)))
-            (append if-nodes other-nodes)))))
+            (append if-then-nodes explicit-else-if-nodes if-else-nodes other-nodes)))))
     (_ (quote ()))))
 
 (define (sace-ir2 forest) (append-map compile-block forest))

@@ -41,13 +41,10 @@
     "."))
 
 (define (lin-if subject-string cond-text then-text else-text)
-  (let
-    ( (then-clause
-        (and then-text (string-append " then " subject-string " " (string-trim-both then-text))))
-      (else-clause
-        (and else-text (string-append " else " subject-string " " (string-trim-both else-text)))))
-    (emit-sentence
-      (string-append "if " (string-trim-both cond-text) (or then-clause "") (or else-clause "")) ".")))
+  (emit-sentence
+    (string-append "if " (string-trim-both cond-text)
+      (and then-text (string-append " then " subject-string " " (string-trim-both then-text))))
+    "."))
 
 (define (lin-question subject-string text)
   (emit-sentence (emit-space-joined subject-string (string-trim-both text)) "?"))

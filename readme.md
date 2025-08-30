@@ -6,7 +6,7 @@ the syntax is a tree: indentation encodes scope, paths through the tree generate
 ## example
 input:
 ~~~
-system
+the system
   is all of
     scalable
     reliable
@@ -31,7 +31,7 @@ feature
 
 handler
   if
-    database connection fails
+    database connection is down
   then
     retries
     logs
@@ -44,13 +44,14 @@ which user
 
 output:
 ~~~
-system is scalable and reliable.
-system output can be json or xml.
+the system is scalable and reliable.
+the system output can be json or xml.
 api can be either v1 or v2.
 exactly 1 resource that the admin owns is required.
 feature flag is set if and only if mode is enabled.
-if database connection fails then handler retries else handler aborts.
-if database connection fails then handler logs else handler aborts.
+if database connection is down then handler retries.
+if database connection is down then handler logs.
+if database connection is not down then handler aborts.
 which user has an active session?
 which user is inactive?
 ~~~
@@ -163,4 +164,7 @@ guile other/example.scm
 
 # possible enhancements
 * transpile ace to sace
-* ace syntax validation
+* reject invalid ace output
+
+# links
+* [Attempto repositories](https://github.com/Attempto)
