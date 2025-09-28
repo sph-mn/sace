@@ -14,7 +14,7 @@ api
 resource exactly
   1
   that the admin owns
-  is required
+  exists
 
 feature
   iff
@@ -31,4 +31,4 @@ handler
 
 which user
   has an active session
-  is inactive
+  is an inactive user

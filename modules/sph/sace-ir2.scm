@@ -2,7 +2,7 @@
 (use-modules (ice-9 match) (srfi srfi-1) (srfi srfi-13))
 
 (define sph-sace-ir2-description
-  "SACE-IR2 rewrites keyword-marked trees into normalized IR nodes.
+  "sace-ir2 rewrites keyword-marked trees into normalized intermediate representation nodes.
    (\"user\" (\"is\" (\"and\" \"red\" \"large\"))) -> ((coord \"user\" \"is\" and (\"red\" \"large\")))
    (\"user\" (\"exactly\" \"1\" \"that the admin owns\" \"is required\")) -> ((quant \"user\" \"exactly\" \"1\" (\"that the admin owns\") (\"is required\")))
    (\"feature\" (\"iff\" \"flag is set\" \"mode is enabled\")) -> -> ((iff \"feature\" \"flag is set\" \"mode is enabled\"))")

@@ -1,7 +1,9 @@
 # sace
-an indented plaintext syntax that compiles to [attempto controlled english](https://en.wikipedia.org/wiki/Attempto_Controlled_English).
-it reduces repetition via subject scoping, uses keywords for logical forms, and preserves aces determinism.
+an indented plaintext syntax that can compile to [attempto controlled english](https://en.wikipedia.org/wiki/Attempto_Controlled_English).
+it reduces repetition via subject scoping and uses keywords for logical forms.
 the syntax is a tree: indentation encodes scope, paths through the tree generate sentences.
+
+the following examples use a form inspired by standard ace; they ignore lexicon and casing requirements.
 
 ## example
 input:
@@ -22,7 +24,7 @@ api
 resource exactly
   1
   that the admin owns
-  is required
+  exists
 
 feature
   iff
@@ -39,7 +41,7 @@ handler
 
 which user
   has an active session
-  is inactive
+  is an inactive user
 ~~~
 
 output:
@@ -47,13 +49,13 @@ output:
 the system is scalable and reliable.
 the system output can be json or xml.
 api can be either v1 or v2.
-exactly 1 resource that the admin owns is required.
+exactly 1 resource that the admin owns exists.
 feature flag is set if and only if mode is enabled.
 if database connection is down then handler retries.
 if database connection is down then handler logs.
 if database connection is not down then handler aborts.
 which user has an active session?
-which user is inactive?
+which user is an inactive user?
 ~~~
 
 ## syntax
@@ -113,14 +115,14 @@ user at least
 resource exactly
   1
   that the admin owns
-  is required
--> "exactly 1 resource that the admin owns is required."
+  exists
+-> "exactly 1 resource that the admin owns exists."
 
 handler
   if
-    queue empty
+    the queue is empty
   then sleeps
--> "if queue empty then handler sleeps."
+-> "if the queue is empty then handler sleeps."
 
 iff
   feature flag is set
@@ -134,7 +136,6 @@ iff
 * round-tripping: ace ↔ sace with normalization.
 * machine processing: tree is trivial to traverse, transform, normalize.
 * composability: trees can be generated programmatically.
-* determinism: logical forms are explicit; no ambiguity.
 
 ## implementation
 dependencies: [guile](https://www.gnu.org/software/guile/) 3+

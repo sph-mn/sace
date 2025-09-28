@@ -1,4 +1,5 @@
-#considerations
+# considerations
+~~~
 does indentation depth beyond one level carry semantics or only grouping?
   indentation defines continuation of a path from subject head to leaf. deeper levels extend the same path; siblings at the same level create additional paths.
   semantic path model - selected
@@ -93,3 +94,4 @@ keyword inclusion choices
   read from head to leaf, it should as much as possible read like a correct ace sentence.
   sace does no pluralization, no article insertion, no guessing missing verbs.
   alternatives to "and" and "or" ("all of" and "any of") were added to make a very common case more readable ("and"/"or" are infix, they dont compose well as prefixes and there was no alternative)
+~~~
